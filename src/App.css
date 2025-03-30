@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    @apply w-full h-full m-0 p-0; /* Neccesary styling to correctly display the 3D Scene*/
+  }
+
+  body {
+    @apply bg-[#dddad9]; /* background color of Scene */
+  }
+}
