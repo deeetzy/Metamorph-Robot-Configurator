@@ -5,7 +5,26 @@ import Lighting from "./SceneComponents/Lighting.jsx";
 import Model from './SceneComponents/Model.jsx';
 import { ManipulationProvider } from '../../context/ManipulationContext';
 
-const Scene = ({coreModel, models, selectedModel, setSelectedModel}) => {
+//maybe should move this component up since its not too complicatied and needs all parent states?
+const Scene = ({coreModel, setCoreModel, models, setModels, selectedModel, setSelectedModel}) => {
+  
+  const updateModelTransformation = (id, position, rotation, scale) => {
+    //updating CoreModel values
+    if(coreModel?.id === id){
+      //copies all values of Model into new object, and overwrites every value we give in argument.
+      setCoreModel(prev=>({...prev, position, rotation, scale}));
+    } else{
+      //updating normal Model Values
+      //loop over model array and if current model found, replace it with copy that has updated values.
+      setModels(prev =>
+        prev.map(model =>
+          (model.id === id ?{...model, position, rotation, scale} : model)
+        )
+      );
+    }
+  }
+  
+
   return (
     
       <Canvas className="z-0">
@@ -18,10 +37,9 @@ const Scene = ({coreModel, models, selectedModel, setSelectedModel}) => {
             id={coreModel.id}
             type={coreModel.type}
             path={coreModel.path}
-            position={coreModel.position}
-            size={coreModel.size}
             isSelected={selectedModel === coreModel.id}
             setSelectedModel={setSelectedModel}
+            updateModelTransformation={updateModelTransformation}
           />
         )}
 
@@ -31,10 +49,9 @@ const Scene = ({coreModel, models, selectedModel, setSelectedModel}) => {
             id={model.id}
             type={model.type}
             path={model.path}
-            position={model.position}
-            size={model.size}
             isSelected={selectedModel === model.id}
             setSelectedModel={setSelectedModel}
+            updateModelTransformation={updateModelTransformation}
           />
         ))}
       </Canvas>
