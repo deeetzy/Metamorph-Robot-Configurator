@@ -37,6 +37,9 @@ const Scene = ({coreModel, setCoreModel, models, setModels, selectedModel, setSe
             id={coreModel.id}
             type={coreModel.type}
             path={coreModel.path}
+            position={coreModel.position}
+            rotation={coreModel.rotation}
+            scale={coreModel.scale}
             isSelected={selectedModel === coreModel.id}
             setSelectedModel={setSelectedModel}
             updateModelTransformation={updateModelTransformation}
@@ -49,6 +52,9 @@ const Scene = ({coreModel, setCoreModel, models, setModels, selectedModel, setSe
             id={model.id}
             type={model.type}
             path={model.path}
+            position={model.position}
+            rotation={model.rotation}
+            scale={model.scale}
             isSelected={selectedModel === model.id}
             setSelectedModel={setSelectedModel}
             updateModelTransformation={updateModelTransformation}

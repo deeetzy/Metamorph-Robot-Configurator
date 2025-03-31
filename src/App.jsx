@@ -32,14 +32,14 @@ export default function App() {
   // selected model which is identified by its ID
   const [selectedModel, setSelectedModel] = useState(null);
 
-  const createModel = (type, path) => {
+  const createModel = (type, path, position=[(-1 + Math.random() * 2), 0, 3], rotation=[0, 0, 0], scale=[1, 1, 1]) => {
     const newModel = { 
       id: Date.now(),
       type: type,
       path: path,
-      position: [0, 0, 0],
-      rotation: [0, 0, 0],
-      scale: [1, 1, 1],
+      position: position,
+      rotation: rotation,
+      scale: scale,
     };
 
     if (type === 'core subdivision') {

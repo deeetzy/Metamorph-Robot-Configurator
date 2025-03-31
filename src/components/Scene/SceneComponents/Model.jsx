@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { PivotControls } from '@react-three/drei';
 
 import { useManipulation } from '../../../context/ManipulationContext';
@@ -6,14 +6,21 @@ import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 
-const Model = ({id, type, path, isSelected, setSelectedModel, updateModelTransformation}) => {
+const Model = ({id, type, path, position, rotation, scale, isSelected, setSelectedModel, updateModelTransformation}) => {
+  //Manipulation controls state from UI to connect the selected manipulation tool with the pivotcontrols to only show the currently selected tool and not all together to avoid confusion
   const { manipulationControls, setControls } = useManipulation();
 
+  //state to assure model is finished mounting in order to mount Pivotcontrols correctly on the Model
+  const [finishedMount, setFinishedMount] = useState(false);
 
-  const group = useRef()
-  const { scene } = useGLTF(path)
-  const clonedScene = useMemo(() => scene.clone(true), [scene, path])
-  
+  //reference to the model
+  const group = useRef();
+
+  //render Model from path and copy it for this component, since R3F reuses cached scenes from same paths. with this, multiple models can be rendered from same path
+  const { scene } = useGLTF(path);
+  const clonedScene = useMemo(() => scene.clone(true), [scene, path]);
+
+  //onMount of component, give the model the correct responsive color design
   useEffect(() => {
     clonedScene.traverse((child) => {
       if (child.isMesh) {
@@ -21,7 +28,17 @@ const Model = ({id, type, path, isSelected, setSelectedModel, updateModelTransfo
         child.material = new THREE.MeshStandardMaterial({ color })
       }
     })
-  }, [isSelected, clonedScene])
+  }, [isSelected])
+
+  //on mount of component, give the model the desired values from the generated or imported model in models
+  useEffect(() => {
+
+    group.current.position.set(...position);
+    group.current.rotation.set(...rotation);
+    group.current.scale.set(...scale);
+
+    setFinishedMount(true);
+  }, []);
 
   //pivotcontrols wrap around the object and have their own transofmations, they do not affect the model within
   //this method gets the current state of the pivotcontrols and applies them to the parameters of the model
@@ -43,8 +60,11 @@ const Model = ({id, type, path, isSelected, setSelectedModel, updateModelTransfo
     updateModelTransformation(id, position.toArray(), rotation, scale.toArray());
   }
 
+  //finishedMount state, since issues were caused by the mounting of Pivotcontrols BEOFRE transformation was applied to the primitive. this fixed it by rendering the primitive and swapping the wrapper with pivotcontrols AFTER it Mounted fully with right coordinates.
   return (
-    <PivotControls
+    <>
+      {finishedMount ?
+      (<PivotControls
       visible={isSelected}
       activeAxes={[!(type === 'core subdivision' && manipulationControls.move), true, !(type === 'core subdivision' && manipulationControls.move)]}
       anchor={[0, 0, 0]}
@@ -65,9 +85,25 @@ const Model = ({id, type, path, isSelected, setSelectedModel, updateModelTransfo
         e.stopPropagation()
         setSelectedModel(id)
       }}
-    />
+      />
 
-    </PivotControls>
+    </PivotControls>) : 
+    (
+      <group>
+        <primitive
+        ref={group}
+        object={clonedScene}
+        onClick={(e) => {
+          e.stopPropagation()
+          setSelectedModel(id)
+        }}
+        />
+      </group>
+    )}
+    </>
+    
+    
+    
   );
 };
 
