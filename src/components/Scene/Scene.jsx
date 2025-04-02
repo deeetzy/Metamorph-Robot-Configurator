@@ -7,10 +7,11 @@ import { ManipulationProvider } from '../../context/ManipulationContext';
 
 //TODO: maybe should move this component up since its not too complicatied and needs all parent states?
 const Scene = ({coreModel, setCoreModel, models, setModels, selectedModel, setSelectedModel}) => {
-
+  /*
+  potential way of resetting pivotcontrols for better manuverability
   //using this timestamp to stop react from remounting same components on several imports with same ID
   const timestamp = Date.now();
-  
+  */
   const updateModelTransformation = (id, position, rotation, scale) => {
     //updating CoreModel values
     if(coreModel?.id === id){
@@ -36,7 +37,7 @@ const Scene = ({coreModel, setCoreModel, models, setModels, selectedModel, setSe
 
         {coreModel && (
           <Model
-            key={coreModel.id + timestamp}
+            key={coreModel.id}
             id={coreModel.id}
             type={coreModel.type}
             path={coreModel.path}
@@ -51,7 +52,7 @@ const Scene = ({coreModel, setCoreModel, models, setModels, selectedModel, setSe
 
         {models.map((model) =>(
           <Model
-            key={model.id + timestamp}
+            key={model.id}
             id={model.id}
             type={model.type}
             path={model.path}

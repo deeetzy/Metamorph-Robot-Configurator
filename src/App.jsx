@@ -78,6 +78,8 @@ export default function App() {
   //TODO Refactor into something more elegant, this is only a temporary solution and doesnt handle edge cases well
   //swap Arguments in createModel, so the arguments can be in order
   const importCSV = (csvData) => {
+    const timestamp = Date.now();
+
     setModels([]);
     setCoreModel(null);
 
@@ -90,7 +92,7 @@ export default function App() {
       createModel(
         row[1],
         row[2], 
-        row[0], 
+        row[0] + timestamp, 
         JSON.parse(row[3].replaceAll('|', ',')), 
         JSON.parse(row[4].replaceAll('|', ',')), 
         JSON.parse(row[5].replaceAll('|', ','))
