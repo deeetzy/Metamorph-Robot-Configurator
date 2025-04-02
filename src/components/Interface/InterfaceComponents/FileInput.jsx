@@ -6,8 +6,9 @@ import { useRef } from 'react';
 const FileInput = ({className, importCSV, children}) => {
     const inputRef = useRef(null);
 
+    //TODO handle invalid or corrupted files
     const handleFileImport = (e) =>{
-        if (e.target.files) {
+        if (e.target.files.length > 0) {
             const reader = new FileReader();
 
             reader.onload = (event) =>{
@@ -16,6 +17,7 @@ const FileInput = ({className, importCSV, children}) => {
             };
             reader.readAsText(e.target.files[0]);
         }
+        inputRef.current.value = null;
     };
   
     return (

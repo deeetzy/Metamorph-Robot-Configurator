@@ -89,7 +89,7 @@ export default function App() {
     var cleanedRows = csvRows.map(row => row.split(','));
     cleanedRows.forEach(row => {
       createModel(
-        row[1], //
+        row[1],
         row[2], 
         row[0], 
         JSON.parse(row[3].replaceAll('|', ',')), 
