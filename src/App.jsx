@@ -80,7 +80,6 @@ export default function App() {
   const importCSV = (csvData) => {
     setModels([]);
     setCoreModel(null);
-    setSelectedModel(null);
 
     var csvRows = csvData.split('\n');
     csvRows.splice(0, 1);
@@ -96,6 +95,8 @@ export default function App() {
         JSON.parse(row[4].replaceAll('|', ',')), 
         JSON.parse(row[5].replaceAll('|', ','))
       );
+
+      setSelectedModel(null);
     });
   };
 
