@@ -2,14 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Neccesary styling to correctly display the 3D Scene*/
 @layer base {
   html,
   body,
   #root {
-    @apply w-full h-full m-0 p-0; /* Neccesary styling to correctly display the 3D Scene*/
+    @apply w-full h-full m-0 p-0; 
   }
 
+  /* background color */
   body {
-    @apply bg-[#dddad9]; /* background color of Scene */
+    @apply bg-[#eceae9]; 
   }
+}
+
+.scrollbar {
+  scrollbar-gutter: stable;
+}
+
+
+.scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* transparent gutter */
+.scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.00);
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 100vh;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
