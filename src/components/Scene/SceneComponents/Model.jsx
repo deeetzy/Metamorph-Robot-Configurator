@@ -5,7 +5,8 @@ import { useManipulation } from '../../../context/ManipulationContext';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
-
+//TODO: might aswell drill the model as Object since im using every attribute anyway
+//TODO: reduce excessive comments after thorough documentation
 const Model = ({id, type, path, position, rotation, scale, isSelected, setSelectedModel, updateModelTransformation}) => {
   //Manipulation controls state from UI to connect the selected manipulation tool with the pivotcontrols to only show the currently selected tool and not all together to avoid confusion
   const { manipulationControls, setControls } = useManipulation();
@@ -14,7 +15,7 @@ const Model = ({id, type, path, position, rotation, scale, isSelected, setSelect
   const [finishedMount, setFinishedMount] = useState(false);
 
   //reference to the model
-  const group = useRef();
+  const modelRef = useRef();
 
   //render Model from path and copy it for this component, since R3F reuses cached scenes from same paths. with this, multiple models can be rendered from same path
   const { scene } = useGLTF(path);
@@ -33,9 +34,9 @@ const Model = ({id, type, path, position, rotation, scale, isSelected, setSelect
   //on mount of component, give the model the desired values from the generated or imported model in models
   useEffect(() => {
 
-    group.current.position.set(...position);
-    group.current.rotation.set(...rotation);
-    group.current.scale.set(...scale);
+    modelRef.current.position.set(...position);
+    modelRef.current.rotation.set(...rotation);
+    modelRef.current.scale.set(...scale);
 
     setFinishedMount(true);
   }, []);
@@ -49,8 +50,8 @@ const Model = ({id, type, path, position, rotation, scale, isSelected, setSelect
     const scale = new THREE.Vector3();
   
     //extract the current state of the pivotcontrols to the variables
-    group.current.updateMatrixWorld(true);
-    group.current.matrixWorld.decompose(position, quaternion, scale);
+    modelRef.current.updateMatrixWorld(true);
+    modelRef.current.matrixWorld.decompose(position, quaternion, scale);
 
     //transform the quaternion to euler angles for easier handling
     const euler = new THREE.Euler().setFromQuaternion(quaternion, 'XYZ').toArray();
@@ -65,45 +66,42 @@ const Model = ({id, type, path, position, rotation, scale, isSelected, setSelect
     <>
       {finishedMount ?
       (<PivotControls
-      visible={isSelected}
-      activeAxes={[!(type === 'core subdivision' && manipulationControls.move), true, !(type === 'core subdivision' && manipulationControls.move)]}
-      anchor={[0, 0, 0]}
-      rotation={[0, 0, 0]}
-      scale={1}
-      depthTest={false}
-      lineWidth={5}
-      disableAxes={!manipulationControls.move || !isSelected}
-      disableSliders={!manipulationControls.move || !isSelected}
-      disableRotations={!manipulationControls.rotate || !isSelected}
-      disableScaling={!manipulationControls.scale || !isSelected}
-      onDragEnd={applyTransformation}
-    >
-      <primitive
-      ref={group}
-      object={clonedScene}
-      onClick={(e) => {
-        e.stopPropagation()
-        setSelectedModel(id)
-      }}
-      />
-
-    </PivotControls>) : 
-    (
-      <group>
+        visible={isSelected}
+        activeAxes={[!(type === 'core subdivision' && manipulationControls.move), true, !(type === 'core subdivision' && manipulationControls.move)]}
+        anchor={[0, 0, 0]}
+        rotation={[0, 0, 0]}
+        scale={1}
+        depthTest={false}
+        lineWidth={5}
+        disableAxes={!manipulationControls.move || !isSelected}
+        disableSliders={!manipulationControls.move || !isSelected}
+        disableRotations={!manipulationControls.rotate || !isSelected}
+        disableScaling={!manipulationControls.scale || !isSelected}
+        onDragEnd={applyTransformation}
+      >
         <primitive
-        ref={group}
+        ref={modelRef}
         object={clonedScene}
         onClick={(e) => {
           e.stopPropagation()
           setSelectedModel(id)
         }}
         />
-      </group>
-    )}
+
+      </PivotControls>) : 
+      (
+        <group>
+          <primitive
+          ref={modelRef}
+          object={clonedScene}
+          onClick={(e) => {
+            e.stopPropagation()
+            setSelectedModel(id)
+          }}
+          />
+        </group>
+      )}
     </>
-    
-    
-    
   );
 };
 

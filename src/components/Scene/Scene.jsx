@@ -5,7 +5,7 @@ import Lighting from "./SceneComponents/Lighting.jsx";
 import Model from './SceneComponents/Model.jsx';
 import { ManipulationProvider } from '../../context/ManipulationContext';
 
-//maybe should move this component up since its not too complicatied and needs all parent states?
+//TODO: maybe should move this component up since its not too complicatied and needs all parent states?
 const Scene = ({coreModel, setCoreModel, models, setModels, selectedModel, setSelectedModel}) => {
   
   const updateModelTransformation = (id, position, rotation, scale) => {
