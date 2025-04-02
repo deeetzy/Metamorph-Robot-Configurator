@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 
 const Accordeon = ({header, children}) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   return (
     <div className='pt-2'>
