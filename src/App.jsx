@@ -2,36 +2,40 @@ import React, { useState } from 'react';
 import Interface from './components/Interface/Interface';
 import Scene from './components/Scene/Scene';
 import { ManipulationProvider } from './context/ManipulationContext';
+import FileSaver from 'file-saver';
 
-
-
-
+//TODO: Flatten Hierarchy of small components to simplify architecture
+//TODO: maybe Models and selected models in neuen Context verfrachten
 export default function App() {
-  // model array where all models are saved as objects
-  const [coreModel, setCoreModel] = useState(null);
+  
+  // model array where all models are saved
   const [models, setModels] = useState([]);
+  // core model, saved seperately for different interaction
+  const [coreModel, setCoreModel] = useState(null);
   // selected model which is identified by its ID
   const [selectedModel, setSelectedModel] = useState(null);
 
-  const createModel = (type, path) => {
-    const id = Date.now();
-    var position = [Math.random() * 2, Math.random() * 2, Math.random() * 2];
-    var size = [1, 1, 1];
-    var type = type;
-
-    if (type === 'core subdivision') {
-      position = [0, 0, 0];
-    }
-
+  const createModel = (type, path, id=Date.now(), position=[(-1 + (Math.random() * 2)), 0, 3], rotation=[0, 0, 0], scale=[1, 1, 1]) => {
     const newModel = { 
       id: id,
       type: type,
-      position: position,
-      size: size,
       path: path,
+      position: position,
+      rotation: rotation,
+      scale: scale,
     };
-    
-    {type === 'core subdivision' ? setCoreModel(newModel) : setModels((prevModels) => [...prevModels, newModel])}
+
+    if (type === 'core subdivision') {
+      newModel.position = [0, 0, 0];
+    };
+
+    if (type === 'core subdivision') {
+      setCoreModel(newModel);
+    } else {
+      setModels((prevModels) => [...prevModels, newModel]);
+    }
+
+    setSelectedModel(newModel.id);
   }
 
   const deleteSelectedModel = (id) => {
@@ -39,15 +43,81 @@ export default function App() {
       const updatedModels = models.filter((model) => model.id !== selectedModel);
       setModels(updatedModels);
       setSelectedModel(null);
+    };
+  };
+
+  //TODO:o use more temp variables for more readability in value preparation for export
+  //maybe add name of mode aswell?
+  const exportCSV = () => {
+    //is header even needed if CSV is only for import purposes?
+    const header = 'id, type, path, position, rotation, scale\n';
+    var modelRows = '';
+
+    if (!coreModel && models.length < 1) {
+      return;
     }
-  }
+    //stringify in order to have correct csv formatting
+    //append core model first and then every other model
+    if (coreModel) {
+      modelRows += `${coreModel.id},${coreModel.type},${coreModel.path},${JSON.stringify(coreModel.position).replaceAll(",", "|")},${JSON.stringify(coreModel.rotation).replaceAll(",", "|")},${JSON.stringify(coreModel.scale).replaceAll(",", "|")}\n`; 
+    }
+    if (models.length > 0){
+      models.forEach(model => {
+        modelRows += `${model.id},${model.type},${model.path},${JSON.stringify(model.position).replaceAll(",", "|")},${JSON.stringify(model.rotation).replaceAll(",", "|")},${JSON.stringify(model.scale).replaceAll(",", "|")}\n`;
+      });
+    }
+    
+    const csv = header + modelRows;
+
+    //generate csv file, then download with FileSaver
+    const csvFile = new Blob([csv], {type: 'text/csv'});
+    FileSaver.saveAs(csvFile, 'Robot_Configuration.csv');
+    
+  };
+
+  //TODO Refactor into something more elegant, this is only a temporary solution and doesnt handle edge cases well
+  //swap Arguments in createModel, so the arguments can be in order
+  const importCSV = (csvData) => {
+    setModels([]);
+    setCoreModel(null);
+    setSelectedModel(null);
+
+    var csvRows = csvData.split('\n');
+    csvRows.splice(0, 1);
+    csvRows = csvRows.filter(row => row.trim() != '');
+
+    var cleanedRows = csvRows.map(row => row.split(','));
+    cleanedRows.forEach(row => {
+      createModel(
+        row[1],
+        row[2], 
+        row[0], 
+        JSON.parse(row[3].replaceAll('|', ',')), 
+        JSON.parse(row[4].replaceAll('|', ',')), 
+        JSON.parse(row[5].replaceAll('|', ','))
+      );
+    });
+  };
+
 
   return (
     <div className='relative h-full w-full'>
       <ManipulationProvider>
-        <Interface createModel = {createModel} deleteModel={deleteSelectedModel} />
-        <Scene coreModel={coreModel} models={models} selectedModel={selectedModel} setSelectedModel={setSelectedModel} />
+        <Interface 
+          createModel={createModel}
+          deleteModel={deleteSelectedModel} 
+          exportCSV={exportCSV} 
+          importCSV={importCSV}
+        />
+        <Scene 
+          coreModel={coreModel} 
+          setCoreModel={setCoreModel} 
+          models={models} 
+          setModels={setModels} 
+          selectedModel={selectedModel} 
+          setSelectedModel={setSelectedModel} 
+        />
       </ManipulationProvider>
     </div>
   );
-}
+};

@@ -6,7 +6,7 @@ const Controls = () => {
     <>
         <CameraControls makeDefault
             minDistance={5}
-            maxDistance={20}
+            maxDistance={15}
             truckSpeed={0}
         />
     </>
