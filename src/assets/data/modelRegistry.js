@@ -27,6 +27,12 @@ const modelRegistry = {
                 img: 'Cog.png',
                 path: '/Assets/Cog.glb',
             },
+            Cone: {
+                name: 'Cone',
+                type: 'core subdivision',
+                img: 'Cone.png',
+                path: '/Assets/Cone.glb',
+            },
             Cylinder: {
                 name: 'Cylinder',
                 type: 'core subdivision',

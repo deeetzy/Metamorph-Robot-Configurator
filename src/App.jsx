@@ -25,15 +25,8 @@ export default function App() {
       scale: scale,
     };
 
-    if (type === 'core subdivision') {
-      newModel.position = [0, 0, 0];
-    };
 
-    if (type === 'core subdivision') {
-      setCoreModel(newModel);
-    } else {
-      setModels((prevModels) => [...prevModels, newModel]);
-    }
+    setModels((prevModels) => [...prevModels, newModel]);
 
     setSelectedModel(newModel.id);
   }
@@ -113,8 +106,6 @@ export default function App() {
           importCSV={importCSV}
         />
         <Scene 
-          coreModel={coreModel} 
-          setCoreModel={setCoreModel} 
           models={models} 
           setModels={setModels} 
           selectedModel={selectedModel} 

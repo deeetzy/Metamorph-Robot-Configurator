@@ -6,7 +6,7 @@ import Model from './SceneComponents/Model.jsx';
 import { ManipulationProvider } from '../../context/ManipulationContext';
 
 //TODO: maybe should move this component up since its not too complicatied and needs all parent states?
-const Scene = ({coreModel, setCoreModel, models, setModels, selectedModel, setSelectedModel}) => {
+const Scene = ({ models, setModels, selectedModel, setSelectedModel}) => {
   /*
   potential way of resetting pivotcontrols for better manuverability
   //using this timestamp to stop react from remounting same components on several imports with same ID
@@ -14,18 +14,13 @@ const Scene = ({coreModel, setCoreModel, models, setModels, selectedModel, setSe
   */
   const updateModelTransformation = (id, position, rotation, scale) => {
     //updating CoreModel values
-    if(coreModel?.id === id){
-      //copies all values of Model into new object, and overwrites every value we give in argument.
-      setCoreModel(prev=>({...prev, position, rotation, scale}));
-    } else{
-      //updating normal Model Values
-      //loop over model array and if current model found, replace it with copy that has updated values.
-      setModels(prev =>
-        prev.map(model =>
-          (model.id === id ?{...model, position, rotation, scale} : model)
-        )
-      );
-    }
+    //updating normal Model Values
+    //loop over model array and if current model found, replace it with copy that has updated values.
+    setModels(prev =>
+      prev.map(model =>
+        (model.id === id ?{...model, position, rotation, scale} : model)
+      )
+    );
   }
   
 
@@ -34,21 +29,6 @@ const Scene = ({coreModel, setCoreModel, models, setModels, selectedModel, setSe
       <Canvas className="z-0">
         <Controls />
         <Lighting />
-
-        {coreModel && (
-          <Model
-            key={coreModel.id}
-            id={coreModel.id}
-            type={coreModel.type}
-            path={coreModel.path}
-            position={coreModel.position}
-            rotation={coreModel.rotation}
-            scale={coreModel.scale}
-            isSelected={selectedModel === coreModel.id}
-            setSelectedModel={setSelectedModel}
-            updateModelTransformation={updateModelTransformation}
-          />
-        )}
 
         {models.map((model) =>(
           <Model

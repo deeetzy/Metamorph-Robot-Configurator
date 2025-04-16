@@ -25,7 +25,7 @@ const Model = ({id, type, path, position, rotation, scale, isSelected, setSelect
   useEffect(() => {
     clonedScene.traverse((child) => {
       if (child.isMesh) {
-        const color = type === 'core subdivision' ? (isSelected ? '#637090' : '#9ea2ad') : (isSelected ? '#98aad9' : '#9ea2ad')
+        const color = isSelected ? '#98aad9' : '#9ea2ad'
         child.material = new THREE.MeshStandardMaterial({ color })
       }
     })
