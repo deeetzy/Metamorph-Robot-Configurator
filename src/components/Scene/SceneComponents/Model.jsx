@@ -67,7 +67,6 @@ const Model = ({id, type, path, position, rotation, scale, isSelected, setSelect
       {finishedMount ?
       (<PivotControls
         visible={isSelected}
-        activeAxes={[!(type === 'core subdivision' && manipulationControls.move), true, !(type === 'core subdivision' && manipulationControls.move)]}
         anchor={[0, 0, 0]}
         rotation={[0, 0, 0]}
         scale={1}

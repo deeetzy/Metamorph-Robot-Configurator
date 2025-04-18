@@ -15,7 +15,7 @@ export default function App() {
   // selected model which is identified by its ID
   const [selectedModel, setSelectedModel] = useState(null);
 
-  const createModel = (type, path, id=Date.now(), position=[(-1 + (Math.random() * 2)), 0, 3], rotation=[0, 0, 0], scale=[1, 1, 1]) => {
+  const createModel = (type, path, id=Date.now(), position=[(-1 + (Math.random() * 2)), 0, 0], rotation=[0, 0, 0], scale=[1, 1, 1]) => {
     const newModel = { 
       id: id,
       type: type,
@@ -30,6 +30,12 @@ export default function App() {
 
     setSelectedModel(newModel.id);
   }
+
+  const copyModel = () => {
+    const copiedModel = models.find((model) => model.id === selectedModel);
+    createModel(copiedModel.type, copiedModel.path, Date.now(),copiedModel.position, copiedModel.rotation, copiedModel.scale);
+
+  };
 
   const deleteSelectedModel = (id) => {
     if (selectedModel !== null) {
@@ -101,7 +107,8 @@ export default function App() {
       <ManipulationProvider>
         <Interface 
           createModel={createModel}
-          deleteModel={deleteSelectedModel} 
+          deleteModel={deleteSelectedModel}
+          copyModel={copyModel}
           exportCSV={exportCSV} 
           importCSV={importCSV}
         />
