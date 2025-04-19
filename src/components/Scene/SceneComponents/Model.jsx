@@ -14,6 +14,9 @@ const Model = ({id, type, path, position, rotation, scale, isSelected, setSelect
   //state to assure model is finished mounting in order to mount Pivotcontrols correctly on the Model
   const [finishedMount, setFinishedMount] = useState(false);
 
+  //save initial rotation as starting value to synchronise rotation of pivotcontrols with rotation of imported model
+  const  [startingRotation] = useState(() => rotation);
+
   //reference to the model
   const modelRef = useRef();
 
@@ -79,7 +82,7 @@ const Model = ({id, type, path, position, rotation, scale, isSelected, setSelect
       (<PivotControls
         visible={isSelected}
         anchor={[0, 0, 0]}
-        rotation={[0, 0, 0]}
+        rotation={startingRotation}
         scale={1}
         depthTest={false}
         lineWidth={5}
