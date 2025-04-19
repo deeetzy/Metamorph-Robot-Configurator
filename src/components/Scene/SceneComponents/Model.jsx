@@ -7,7 +7,7 @@ import * as THREE from 'three';
 
 //TODO: might aswell drill the model as Object since im using every attribute anyway
 //TODO: reduce excessive comments after thorough documentation
-const Model = ({id, type, path, position, rotation, scale, isSelected, setSelectedModel, updateModelTransformation, dragRef}) => {
+const Model = ({id, type, path, position, rotation, scale, isSelected, setSelectedModel, updateModelTransformation}) => {
   //Manipulation controls state from UI to connect the selected manipulation tool with the pivotcontrols to only show the currently selected tool and not all together to avoid confusion
   const { manipulationControls, setControls } = useManipulation();
 
@@ -62,7 +62,8 @@ const Model = ({id, type, path, position, rotation, scale, isSelected, setSelect
   }
 
   const handleModelClick = (event, id) => {
-    if (dragRef.current) {
+    console.log();
+    if (event.detail < 2) {
       return
     } else {
       event.stopPropagation();
@@ -86,12 +87,7 @@ const Model = ({id, type, path, position, rotation, scale, isSelected, setSelect
         disableSliders={!manipulationControls.move || !isSelected}
         disableRotations={!manipulationControls.rotate || !isSelected}
         disableScaling={!manipulationControls.scale || !isSelected}
-        onDragStart={() => {dragRef.current = true} }
-        onDragEnd={() => {
-          applyTransformation()
-
-          setTimeout(() => {dragRef.current = false}, 100);
-        }}
+        onDragEnd={applyTransformation}
       >
         <primitive
         ref={modelRef}
