@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Canvas } from "@react-three/fiber";
 import Controls  from "./SceneComponents/Controls.jsx";
 import Lighting from "./SceneComponents/Lighting.jsx";
@@ -7,6 +7,10 @@ import { ManipulationProvider } from '../../context/ManipulationContext';
 
 //TODO: maybe should move this component up since its not too complicatied and needs all parent states?
 const Scene = ({ models, setModels, selectedModel, setSelectedModel}) => {
+
+  //Ref to disable Model selection while dragging pivotcontrols of the currently seelcted model
+  //Fixes bug where another model gets instantly selected when ending drag with mouse on not selected model
+  const dragRef = useRef(false);
   /*
   potential way of resetting pivotcontrols for better manuverability
   //using this timestamp to stop react from remounting same components on several imports with same ID
@@ -22,7 +26,6 @@ const Scene = ({ models, setModels, selectedModel, setSelectedModel}) => {
       )
     );
   }
-  
 
   return (
     
@@ -42,6 +45,7 @@ const Scene = ({ models, setModels, selectedModel, setSelectedModel}) => {
             isSelected={selectedModel === model.id}
             setSelectedModel={setSelectedModel}
             updateModelTransformation={updateModelTransformation}
+            dragRef={dragRef}
           />
         ))}
       </Canvas>

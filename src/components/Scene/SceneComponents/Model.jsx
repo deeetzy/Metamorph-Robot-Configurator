@@ -7,7 +7,7 @@ import * as THREE from 'three';
 
 //TODO: might aswell drill the model as Object since im using every attribute anyway
 //TODO: reduce excessive comments after thorough documentation
-const Model = ({id, type, path, position, rotation, scale, isSelected, setSelectedModel, updateModelTransformation}) => {
+const Model = ({id, type, path, position, rotation, scale, isSelected, setSelectedModel, updateModelTransformation, dragRef}) => {
   //Manipulation controls state from UI to connect the selected manipulation tool with the pivotcontrols to only show the currently selected tool and not all together to avoid confusion
   const { manipulationControls, setControls } = useManipulation();
 
@@ -61,6 +61,16 @@ const Model = ({id, type, path, position, rotation, scale, isSelected, setSelect
     updateModelTransformation(id, position.toArray(), rotation, scale.toArray());
   }
 
+  const handleModelClick = (event, id) => {
+    if (dragRef.current) {
+      return
+    } else {
+      event.stopPropagation();
+      setSelectedModel(id);
+    }
+    
+  };
+
   //finishedMount state, since issues were caused by the mounting of Pivotcontrols BEOFRE transformation was applied to the primitive. this fixed it by rendering the primitive and swapping the wrapper with pivotcontrols AFTER it Mounted fully with right coordinates.
   return (
     <>
@@ -76,14 +86,18 @@ const Model = ({id, type, path, position, rotation, scale, isSelected, setSelect
         disableSliders={!manipulationControls.move || !isSelected}
         disableRotations={!manipulationControls.rotate || !isSelected}
         disableScaling={!manipulationControls.scale || !isSelected}
-        onDragEnd={applyTransformation}
+        onDragStart={() => {dragRef.current = true} }
+        onDragEnd={() => {
+          applyTransformation()
+
+          setTimeout(() => {dragRef.current = false}, 100);
+        }}
       >
         <primitive
         ref={modelRef}
         object={clonedScene}
-        onClick={(e) => {
-          e.stopPropagation()
-          setSelectedModel(id)
+        onClick={(event) => {
+          handleModelClick(event, id);
         }}
         />
 
@@ -93,9 +107,8 @@ const Model = ({id, type, path, position, rotation, scale, isSelected, setSelect
           <primitive
           ref={modelRef}
           object={clonedScene}
-          onClick={(e) => {
-            e.stopPropagation()
-            setSelectedModel(id)
+          onClick={(event) => {
+            handleModelClick(event, id);
           }}
           />
         </group>
