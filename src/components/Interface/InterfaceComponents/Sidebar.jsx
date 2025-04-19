@@ -8,10 +8,7 @@ import FileInput from './FileInput.jsx'
 import '../../../App.css';
 
 //TODO: Flatten hierarchy
-//TODO:for-each section inside a category, make a section
-
 //for-each Category, make an accordeon
-
 //for-each item, make an accordeonItem with its values.
 const Sidebar = ({createModel, exportCSV, importCSV}) => {
   
