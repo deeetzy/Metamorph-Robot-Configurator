@@ -26,6 +26,7 @@ const Sidebar = ({createModel, exportCSV, importCSV}) => {
             {Object.entries(models).map(([modelName, modelData]) => (
             <AccordeonItem 
               key={modelName} 
+              name={modelData.name}
               type={modelData.type}
               img={modelData.img}
               path={modelData.path}

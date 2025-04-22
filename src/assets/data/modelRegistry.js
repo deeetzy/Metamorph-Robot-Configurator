@@ -111,241 +111,204 @@ const modelRegistry = {
                 img: 'Triangle.png',
                 path: '/Assets/Triangle.glb',
             },
-        },
-    },
-    'Connection Subdivision':{
-        'General descriptor - Shapes':{
-            Barrel: {
-                name: 'Barrel',
-                type: 'connecting subdivision',
-                img: 'Barrel.png',
-                path: '/Assets/Barrel.glb',
-            },
-            Cube: {
-                name: 'Cube',
-                type: 'connecting subdivision',
-                img: 'BoxCube.png',
-                path: '/Assets/BoxCube.glb',
-            },
-            RoundedBox: {
-                name: 'BoxRounded',
-                type: 'connecting subdivision',
-                img: 'BoxRounded.png',
-                path: '/Assets/BoxRounded.glb',
-            },
-            Cog: {
-                name: 'Cog',
-                type: 'connecting subdivision',
-                img: 'Cog.png',
-                path: '/Assets/Cog.glb',
-            },
-            Cylinder: {
-                name: 'Cylinder',
-                type: 'connecting subdivision',
-                img: 'Cylinder.png',
-                path: '/Assets/Cylinder.glb',
-            },
-            Diamond: {
-                name: 'Diamond',
-                type: 'connecting subdivision',
-                img: 'Diamond.png',
-                path: '/Assets/Diamond.glb',
-            },
-            Ellipsoid: {
-                name: 'Ellipsoid',
-                type: 'connecting subdivision',
-                img: 'Ellipsoid.png',
-                path: '/Assets/Ellipsoid.glb',
-            },
-            Fork: {
-                name: 'Fork',
-                type: 'connecting subdivision',
-                img: 'Fork.png',
-                path: '/Assets/Fork.glb',
-            },
-            Gravestone: {
-                name: 'Gravestone',
-                type: 'connecting subdivision',
-                img: 'Gravestone.png',
-                path: '/Assets/Gravestone.glb',
-            },
-            Peanut: {
-                name: 'Peanut',
-                type: 'connecting subdivision',
-                img: 'Peanut.png',
-                path: '/Assets/Peanut.glb',
-            },
-            Pear: {
-                name: 'Pear',
-                type: 'connecting subdivision',
-                img: 'Pear.png',
-                path: '/Assets/Pear.glb',
-            },
-            Plate: {
-                name: 'Plate',
-                type: 'connecting subdivision',
-                img: 'Plate.png',
-                path: '/Assets/Plate.glb',
-            },
-            Ring: {
-                name: 'Ring',
-                type: 'connecting subdivision',
-                img: 'Ring.png',
-                path: '/Assets/Ring.glb',
-            },
-            Spade: {
-                name: 'Spade',
-                type: 'connecting subdivision',
-                img: 'Spade.png',
-                path: '/Assets/Spade.glb',
-            },
-            Sphere: {
-                name: 'Sphere',
-                type: 'connecting subdivision',
-                img: 'Sphere.png',
-                path: '/Assets/Sphere.glb',
-            },
-            Trapezoid: {
-                name: 'Trapezoid',
-                type: 'connecting subdivision',
-                img: 'Trapezoid.png',
-                path: '/Assets/Trapezoid.glb',
-            },
             Triangle: {
                 name: 'Triangle',
-                type: 'connecting subdivision',
+                type: 'core subdivision',
                 img: 'Triangle.png',
                 path: '/Assets/Triangle.glb',
             },
+            VShape: {
+                name: 'V-Shape',
+                type: 'core subdivision',
+                img: 'VShape.png',
+                path: '/Assets/VShape.glb',
+            },
         },
-        'Subdivision-specific descriptor':{
-            oneJoint: {
-                name: 'OneJoint',
+    },
+    'Connection Subdivision':{
+        'Basic connecting subdivisions':{
+            Neck: {
+                name: 'Neck',
                 type: 'connecting subdivision',
-                img: '1joint.jpg',
-                path: '/Assets/1_joint-transformed.glb',
+                img: 'Neck.png',
+                path: '/Assets/ShortNeck.glb',
+            },
+            Shoulder: {
+                name: 'Shoulder',
+                type: 'connecting subdivision',
+                img: 'Shoulder.png',
+                path: '/Assets/Shoulder.glb',
+            },
+        },
+        'Arm configurations':{
+            Arm0: {
+                name: '0-Joint Arm',
+                type: 'connecting subdivision',
+                img: 'Arm0.png',
+                path: '/Assets/Arm0.glb',
+            },
+            Arm1: {
+                name: '1-Joint Arm',
+                type: 'connecting subdivision',
+                img: 'Arm1.png',
+                path: '/Assets/Arm1.glb',
+            },
+            Arm2: {
+                name: '2-Joint Arm',
+                type: 'connecting subdivision',
+                img: 'Arm2.png',
+                path: '/Assets/Arm2.glb',
+            },
+        },
+        'Leg configurations':{
+            Leg0: {
+                name: '0-Joint Leg',
+                type: 'connecting subdivision',
+                img: 'Leg0.png',
+                path: '/Assets/Leg0.glb',
+            },
+            Leg1: {
+                name: '1-Joint Leg',
+                type: 'connecting subdivision',
+                img: 'Leg1.png',
+                path: '/Assets/Leg1.glb',
+            },
+            Leg2: {
+                name: '2-Joint Leg',
+                type: 'connecting subdivision',
+                img: 'Leg2.png',
+                path: '/Assets/Leg2.glb',
             },
         },
     },
     'Terminal Subdivision':{
-        'General descriptor - Shapes':{
-            Barrel: {
-                name: 'Barrel',
+        'Manipulator':{
+            Hand2: {
+                name: '2-finger Hand',
                 type: 'terminal subdivision',
-                img: 'Barrel.png',
-                path: '/Assets/Barrel.glb',
+                img: 'Hand2.png',
+                path: '/Assets/Hand2.glb',
             },
-            Cube: {
-                name: 'Cube',
+            Hand3: {
+                name: '3-finger Hand',
                 type: 'terminal subdivision',
-                img: 'BoxCube.png',
-                path: '/Assets/BoxCube.glb',
+                img: 'Hand3.png',
+                path: '/Assets/Hand3.glb',
             },
-            RoundedBox: {
-                name: 'BoxRounded',
+            Hand4: {
+                name: '4-finger Hand',
                 type: 'terminal subdivision',
-                img: 'BoxRounded.png',
-                path: '/Assets/BoxRounded.glb',
+                img: 'Hand4.png',
+                path: '/Assets/Hand4.glb',
             },
-            Cog: {
-                name: 'Cog',
+            Hand5: {
+                name: '5-finger Hand',
                 type: 'terminal subdivision',
-                img: 'Cog.png',
-                path: '/Assets/Cog.glb',
-            },
-            Cylinder: {
-                name: 'Cylinder',
-                type: 'terminal subdivision',
-                img: 'Cylinder.png',
-                path: '/Assets/Cylinder.glb',
-            },
-            Diamond: {
-                name: 'Diamond',
-                type: 'terminal subdivision',
-                img: 'Diamond.png',
-                path: '/Assets/Diamond.glb',
-            },
-            Ellipsoid: {
-                name: 'Ellipsoid',
-                type: 'terminal subdivision',
-                img: 'Ellipsoid.png',
-                path: '/Assets/Ellipsoid.glb',
-            },
-            Fork: {
-                name: 'Fork',
-                type: 'terminal subdivision',
-                img: 'Fork.png',
-                path: '/Assets/Fork.glb',
-            },
-            Gravestone: {
-                name: 'Gravestone',
-                type: 'terminal subdivision',
-                img: 'Gravestone.png',
-                path: '/Assets/Gravestone.glb',
-            },
-            Peanut: {
-                name: 'Peanut',
-                type: 'terminal subdivision',
-                img: 'Peanut.png',
-                path: '/Assets/Peanut.glb',
-            },
-            Pear: {
-                name: 'Pear',
-                type: 'terminal subdivision',
-                img: 'Pear.png',
-                path: '/Assets/Pear.glb',
-            },
-            Plate: {
-                name: 'Plate',
-                type: 'terminal subdivision',
-                img: 'Plate.png',
-                path: '/Assets/Plate.glb',
-            },
-            Ring: {
-                name: 'Ring',
-                type: 'terminal subdivision',
-                img: 'Ring.png',
-                path: '/Assets/Ring.glb',
-            },
-            Spade: {
-                name: 'Spade',
-                type: 'terminal subdivision',
-                img: 'Spade.png',
-                path: '/Assets/Spade.glb',
-            },
-            Sphere: {
-                name: 'Sphere',
-                type: 'terminal subdivision',
-                img: 'Sphere.png',
-                path: '/Assets/Sphere.glb',
-            },
-            Trapezoid: {
-                name: 'Trapezoid',
-                type: 'terminal subdivision',
-                img: 'Trapezoid.png',
-                path: '/Assets/Trapezoid.glb',
-            },
-            Triangle: {
-                name: 'Triangle',
-                type: 'terminal subdivision',
-                img: 'Triangle.png',
-                path: '/Assets/Triangle.glb',
+                img: 'Hand5.png',
+                path: '/Assets/Hand5.glb',
             },
         },
-        'Ground supporting supdivision':{
-            hemisphere: {
-                name: 'hemisphere',
+        'Higher face feature':{
+            CameraEye: {
+                name: 'Camera eye',
                 type: 'terminal subdivision',
-                img: 'hemisphere.jpg',
-                path: '/Assets/Hemisphere-transformed.glb',
+                img: 'CameraEye.png',
+                path: '/Assets/CameraEye.glb',
+            },
+            SensorArray: {
+                name: 'Sensor array',
+                type: 'terminal subdivision',
+                img: 'SensorArray.png',
+                path: '/Assets/SensorArray.glb',
+            },
+            Visor: {
+                name: 'Visor',
+                type: 'terminal subdivision',
+                img: 'Visor.png',
+                path: '/Assets/Visor.glb',
+            },
+            Eyebrow: {
+                name: 'Eyebrow',
+                type: 'terminal subdivision',
+                img: 'Eyebrow.png',
+                path: '/Assets/Eyebrow.glb',
             },
         },
-        'Head segment':{
-            sensor: {
-                name: 'sensor',
+        'Ground supporting subdivision': {
+            Shoe: {
+                name: '2-Shoe',
                 type: 'terminal subdivision',
-                img: 'sensor.jpg',
-                path: '/Assets/Sensor-transformed.glb',
+                img: 'Shoe.png',
+                path: '/Assets/Shoe.glb',
+            },
+            TwoToed: {
+                name: '2-Toed',
+                type: 'terminal subdivision',
+                img: '2Toed.png',
+                path: '/Assets/2Toed.glb',
+            },
+            Hoof: {
+                name: '2-Hoof',
+                type: 'terminal subdivision',
+                img: 'Hoof.png',
+                path: '/Assets/Hoof.glb',
+            },
+
+        },
+        'Appendage':{
+            Antenna: {
+                name: 'Antenna',
+                type: 'terminal subdivision',
+                img: 'Antenna.png',
+                path: '/Assets/Antenna.glb',
+            },
+            Backpack: {
+                name: 'Backpack',
+                type: 'terminal subdivision',
+                img: 'Backpack.png',
+                path: '/Assets/Backpack.glb',
+            },
+            Container: {
+                name: 'Container',
+                type: 'terminal subdivision',
+                img: 'Container.png',
+                path: '/Assets/Container.glb',
+            },
+            Fin: {
+                name: 'Fin',
+                type: 'terminal subdivision',
+                img: 'Fin.png',
+                path: '/Assets/Fin.glb',
+            },
+            FaceScreen: {
+                name: 'FaceScreen',
+                type: 'terminal subdivision',
+                img: 'FaceScreen.png',
+                path: '/Assets/FaceScreen.glb',
+            },
+            SteeringWheel: {
+                name: 'SteeringWheel',
+                type: 'terminal subdivision',
+                img: 'SteeringWheel.png',
+                path: '/Assets/SteeringWheel.glb',
+            },
+            Tail: {
+                name: 'Tail',
+                type: 'terminal subdivision',
+                img: 'Tail.png',
+                path: '/Assets/Tail.glb',
+            },
+            Thruster: {
+                name: 'Thruster',
+                type: 'terminal subdivision',
+                img: 'Thruster.png',
+                path: '/Assets/Thruster.glb',
+            },
+            Wing: {
+                name: 'Wing',
+                type: 'terminal subdivision',
+                img: 'Wing.png',
+                path: '/Assets/Wing.glb',
             },
         },
     },
