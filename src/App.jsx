@@ -6,6 +6,7 @@ import FileSaver from 'file-saver';
 
 //TODO: Flatten Hierarchy of small components to simplify architecture
 //TODO: maybe Models and selected models in neuen Context verfrachten
+//TODO: Put all model logic and alteration functionality into a context, similar to meshmanipulation
 export default function App() {
   
   // model array where all models are saved
@@ -15,7 +16,7 @@ export default function App() {
   // selected model which is identified by its ID
   const [selectedModel, setSelectedModel] = useState(null);
 
-  const createModel = (type, path, id=Date.now(), position=[(-1 + (Math.random() * 2)), 0, 0], rotation=[0, 0, 0], scale=[1, 1, 1]) => {
+  const createModel = (type, path, id=Date.now(), position=[0.5, 0.5, 0], rotation=[0, 0, 0], scale=[1, 1, 1]) => {
     const newModel = { 
       id: id,
       type: type,

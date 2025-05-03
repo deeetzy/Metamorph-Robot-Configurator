@@ -7,7 +7,7 @@ const Controls = () => {
 
   useEffect(() => {
     if (cameraRef.current) {
-      cameraRef.current.setTarget(0,2,0, false);
+      cameraRef.current.setTarget(0,1,0, false);
     }
 
   }, []);
@@ -19,7 +19,7 @@ const Controls = () => {
           ref={cameraRef}
             minDistance={2}
             maxDistance={15}
-            truckSpeed={0}
+            truckSpeed={2}
         />
     </>
   );

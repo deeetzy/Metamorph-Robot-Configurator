@@ -28,10 +28,12 @@ const Model = ({id, type, path, position, rotation, scale, isSelected, setSelect
   useEffect(() => {
     clonedScene.traverse((child) => {
       if (child.isMesh) {
-        const color = isSelected ? '#98aad9' : '#9ea2ad'
-        child.material = new THREE.MeshStandardMaterial({ color })
+        const color = isSelected ? '#98aad9' : '#9ea2ad';
+        child.material = new THREE.MeshStandardMaterial({ color });
+        child.castShadow = true;
+        child.receiveShadow = true;
       }
-    })
+    });
   }, [isSelected])
 
   //on mount of component, give the model the desired values from the generated or imported model in models

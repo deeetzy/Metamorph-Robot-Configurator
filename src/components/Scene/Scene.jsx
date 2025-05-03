@@ -4,6 +4,7 @@ import Controls  from "./SceneComponents/Controls.jsx";
 import Lighting from "./SceneComponents/Lighting.jsx";
 import Model from './SceneComponents/Model.jsx';
 import { ManipulationProvider } from '../../context/ManipulationContext';
+import { Grid } from '@react-three/drei';
 
 //TODO: maybe should move this component up since its not too complicatied and needs all parent states?
 const Scene = ({ models, setModels, selectedModel, setSelectedModel}) => {
@@ -24,9 +25,32 @@ const Scene = ({ models, setModels, selectedModel, setSelectedModel}) => {
     );
   }
 
+  //for testing purposes: https://codesandbox.io/p/sandbox/sew669?file=%2Fsrc%2FApp.js%3A4%2C10-4%2C14
+  function Ground() {
+    const gridConfig = {
+      cellSize: 0.3,
+      cellThickness: 1,
+      cellColor: '#6f6f6f',
+      sectionSize: 3,
+      sectionThickness: 1,
+      sectionColor: '#9d4b4b',
+      fadeDistance: 15,
+      fadeStrength: 2,
+      followCamera: false,
+      infiniteGrid: true,
+      opacity: 0.4
+    }
+    return (
+      <>
+      <Grid position={[0, -0.01, 0]} args={[10.5, 10.5]} {...gridConfig} />
+      </>
+
+    );
+  }
+
   return (
     
-      <Canvas className="z-0">
+      <Canvas camera={{ position: [-3, 3, 3], fov: 60 }} className="z-0">
         <Controls />
         <Lighting />
 
@@ -44,6 +68,7 @@ const Scene = ({ models, setModels, selectedModel, setSelectedModel}) => {
             updateModelTransformation={updateModelTransformation}
           />
         ))}
+        <Ground />
       </Canvas>
   );
 };

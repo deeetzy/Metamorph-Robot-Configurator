@@ -9,17 +9,19 @@ const modelRegistry = {
                 img: 'Barrel.png',
                 path: '/Assets/Barrel.glb',
             },
+            //inconsistent naming
             Cube: {
                 name: 'Cube',
                 type: 'core subdivision',
                 img: 'BoxCube.png',
-                path: '/Assets/BoxCube.glb',
+                path: '/Assets/Cube.glb',
             },
+            //inconsistent naming
             RoundedBox: {
                 name: 'BoxRounded',
                 type: 'core subdivision',
                 img: 'BoxRounded.png',
-                path: '/Assets/BoxRounded.glb',
+                path: '/Assets/RoundedBox.glb',
             },
             Cog: {
                 name: 'Cog',
@@ -125,7 +127,7 @@ const modelRegistry = {
             },
         },
     },
-    'Connection Subdivision':{
+    'Connecting Subdivision':{
         'Basic connecting subdivisions':{
             Neck: {
                 name: 'Neck',
