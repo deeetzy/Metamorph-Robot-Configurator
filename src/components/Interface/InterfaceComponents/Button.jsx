@@ -69,14 +69,17 @@ const Button = ({selectedModel, type, onClick,  children}) => {
 
   return (
     <button 
-        className={`flex flex-row gap-x-2 items-center w-28 px-3 py-2 border border-gray-300 rounded shadow-sm ${manipulationControls[type] ? 'bg-gray-200' : 'bg-white'} ${type === 'delete' ? 'text-red-600' : 'text-gray-800'} ${ !selectedModel && (type == "copy" || type == "delete") ? "text-gray-300 opacity-80 shadow-none" : "hover:bg-gray-50 active:bg-gray-200"}`}
+        className={`flex flex-row gap-x-2 items-center w-28 px-3 py-2 border border-gray-300 rounded shadow-sm
+                    ${manipulationControls[type] ? 'bg-gray-200' : 'bg-white'}
+                    ${ !selectedModel && (type == "copy" || type == "delete") ? "text-gray-300 opacity-80 shadow-none" : "hover:bg-gray-50 active:bg-gray-200"} 
+                `}
         disabled={!selectedModel && (type == "copy" || type == "delete")} 
         onClick={onClick} 
     >
         <div className='flex justify-center w-7 h-7 flex-shrink-0'>
             <ChosenIcon stroke={(type == "delete") ? (!selectedModel ? "#e2e8f0" : "#dc2626"):(!selectedModel ? "#e2e8f0" : "#000000") } /> 
         </div>
-        <span>{children}</span>
+        <span className={`${!selectedModel && (type == "copy" || type == "delete") ? "text-gray-300" : (type === 'delete' ? 'text-red-600' : 'text-gray-800')}`}>{children}</span>
     </button>
     
 
