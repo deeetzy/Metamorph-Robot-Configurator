@@ -1,22 +1,30 @@
 import React, { useState } from 'react';
 import Interface from './components/Interface/Interface';
 import Scene from './components/Scene/Scene';
+import Alert from './components/Interface/InterfaceComponents/Alert';
 import { ManipulationProvider } from './context/ManipulationContext';
 import FileSaver from 'file-saver';
 
 //TODO: Flatten Hierarchy of small components to simplify architecture
-//TODO: maybe Models and selected models in neuen Context verfrachten
+//TODO: maybe Models and selected models in neuen Context oder store verfrachten
 //TODO: Put all model logic and alteration functionality into a context, similar to meshmanipulation
 export default function App() {
   
   // model array where all models are saved
   const [models, setModels] = useState([]);
-  // core model, saved seperately for different interaction
-  const [coreModel, setCoreModel] = useState(null);
   // selected model which is identified by its ID
   const [selectedModel, setSelectedModel] = useState(null);
 
-  const createModel = (type, path, id=Date.now(), position=[0.5, 0.5, 0], rotation=[0, 0, 0], scale=[1, 1, 1]) => {
+  //alert states and message
+  const [visible, setVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+
+  const fireAlert = (message) => {
+    setAlertMessage(message);
+    setVisible(true);
+  };
+
+  const createModel = (type, path, id=Date.now(), position=[0.5, 2, 0], rotation=[0, 0, 0], scale=[1, 1, 1]) => {
     const newModel = { 
       id: id,
       type: type,
@@ -35,14 +43,15 @@ export default function App() {
   const copyModel = () => {
     const copiedModel = models.find((model) => model.id === selectedModel);
     createModel(copiedModel.type, copiedModel.path, Date.now(),copiedModel.position, copiedModel.rotation, copiedModel.scale);
-
+    fireAlert("Copied selected model");
   };
 
-  const deleteSelectedModel = (id) => {
+  const deleteSelectedModel = (id=null) => {
     if (selectedModel !== null) {
       const updatedModels = models.filter((model) => model.id !== selectedModel);
       setModels(updatedModels);
       setSelectedModel(null);
+      fireAlert("Deleted selected model");
     };
   };
 
@@ -53,14 +62,11 @@ export default function App() {
     const header = 'id, type, path, position, rotation, scale\n';
     var modelRows = '';
 
-    if (!coreModel && models.length < 1) {
+    if (models.length < 1) {
       return;
     }
     //stringify in order to have correct csv formatting
     //append core model first and then every other model
-    if (coreModel) {
-      modelRows += `${coreModel.id},${coreModel.type},${coreModel.path},${JSON.stringify(coreModel.position).replaceAll(",", "|")},${JSON.stringify(coreModel.rotation).replaceAll(",", "|")},${JSON.stringify(coreModel.scale).replaceAll(",", "|")}\n`; 
-    }
     if (models.length > 0){
       models.forEach(model => {
         modelRows += `${model.id},${model.type},${model.path},${JSON.stringify(model.position).replaceAll(",", "|")},${JSON.stringify(model.rotation).replaceAll(",", "|")},${JSON.stringify(model.scale).replaceAll(",", "|")}\n`;
@@ -72,7 +78,6 @@ export default function App() {
     //generate csv file, then download with FileSaver
     const csvFile = new Blob([csv], {type: 'text/csv'});
     FileSaver.saveAs(csvFile, 'Robot_Configuration.csv');
-    
   };
 
   //TODO Refactor into something more elegant, this is only a temporary solution and doesnt handle edge cases well
@@ -81,7 +86,6 @@ export default function App() {
     const timestamp = Date.now();
 
     setModels([]);
-    setCoreModel(null);
 
     var csvRows = csvData.split('\n');
     csvRows.splice(0, 1);
@@ -106,7 +110,16 @@ export default function App() {
   return (
     <div className='relative h-full w-full'>
       <ManipulationProvider>
+        {visible &&
+        <Alert
+        message={alertMessage}
+        visible={visible}
+        setVisible={setVisible}
+      />
+        }
+        
         <Interface 
+          selectedModel={selectedModel}
           createModel={createModel}
           deleteModel={deleteSelectedModel}
           copyModel={copyModel}

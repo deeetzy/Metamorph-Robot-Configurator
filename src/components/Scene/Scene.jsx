@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Canvas } from "@react-three/fiber";
 import Controls  from "./SceneComponents/Controls.jsx";
 import Lighting from "./SceneComponents/Lighting.jsx";
@@ -8,6 +8,9 @@ import { Grid } from '@react-three/drei';
 
 //TODO: maybe should move this component up since its not too complicatied and needs all parent states?
 const Scene = ({ models, setModels, selectedModel, setSelectedModel}) => {
+  //Ref to disable Model selection while dragging pivotcontrols of the currently seelcted model
+  //Fixes bug where another model gets instantly selected when ending drag with mouse on not selected model
+  const dragRef = useRef(false);
 
   /*
   potential way of resetting pivotcontrols for better manuverability
@@ -15,7 +18,6 @@ const Scene = ({ models, setModels, selectedModel, setSelectedModel}) => {
   const timestamp = Date.now();
   */
   const updateModelTransformation = (id, position, rotation, scale) => {
-    //updating CoreModel values
     //updating normal Model Values
     //loop over model array and if current model found, replace it with copy that has updated values.
     setModels(prev =>
@@ -29,29 +31,39 @@ const Scene = ({ models, setModels, selectedModel, setSelectedModel}) => {
   function Ground() {
     const gridConfig = {
       cellSize: 0.3,
-      cellThickness: 1,
-      cellColor: '#6f6f6f',
+      cellThickness: 1.5,
+      cellColor: '#3f3f3f',
       sectionSize: 3,
-      sectionThickness: 1,
-      sectionColor: '#9d4b4b',
+      sectionThickness: 1.5,
+      sectionColor: '#213964',
       fadeDistance: 15,
       fadeStrength: 2,
-      followCamera: false,
+      followCamera: true,
       infiniteGrid: true,
-      opacity: 0.4
     }
     return (
-      <>
       <Grid position={[0, -0.01, 0]} args={[10.5, 10.5]} {...gridConfig} />
-      </>
-
     );
   }
 
   return (
     
-      <Canvas camera={{ position: [-3, 3, 3], fov: 60 }} className="z-0">
-        <Controls />
+      <Canvas 
+      
+      camera={{ position: [-3, 3, 3], fov: 60 }} className="z-0"
+      onClick={(e)=>{
+        if (e.detail < 2) {
+          return
+        } else {
+          setSelectedModel(null);
+          }}}
+      onDragStart={() => {dragRef.current = true} }
+      onDragEnd={() => {
+        applyTransformation();
+        setTimeout(() => {dragRef.current = false}, 100);
+      }}
+      >
+        <Controls dragRef={dragRef} />
         <Lighting />
 
         {models.map((model) =>(
@@ -66,6 +78,7 @@ const Scene = ({ models, setModels, selectedModel, setSelectedModel}) => {
             isSelected={selectedModel === model.id}
             setSelectedModel={setSelectedModel}
             updateModelTransformation={updateModelTransformation}
+            dragRef={dragRef}
           />
         ))}
         <Ground />

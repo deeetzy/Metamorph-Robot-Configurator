@@ -5,10 +5,10 @@ const Accordeon = ({header, children}) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className='pt-2'>
+    <div className='pt-2 pointer-events-auto'>
       <div
         onClick={() => setOpen(!open)} 
-        className='p-5 mb-1 bg-white rounded-sm flex items-center justify-between'
+        className='p-5 mb-1 bg-white hover:bg-gray-50 active:bg-gray-200 border border-gray-300 rounded-sm flex items-center justify-between shadow-sm'
       >
         <div>
           <h1 className='text-slate-900'>{header}</h1>
