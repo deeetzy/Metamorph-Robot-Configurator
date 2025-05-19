@@ -119,6 +119,7 @@ export default function App() {
         }
         
         <Interface 
+          models={models}
           selectedModel={selectedModel}
           createModel={createModel}
           deleteModel={deleteSelectedModel}

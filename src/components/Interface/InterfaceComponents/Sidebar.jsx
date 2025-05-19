@@ -11,7 +11,7 @@ import '../../../App.css';
 //TODO: Flatten hierarchy
 //for-each Category, make an accordeon
 //for-each item, make an accordeonItem with its values.
-const Sidebar = ({selectedModel, createModel, exportCSV, importCSV}) => {
+const Sidebar = ({models, createModel, exportCSV, importCSV}) => {
   //preloading assets
   useEffect(() => {
       Object.entries(modelRegistry).forEach(([categoryName, sections]) => {
@@ -53,7 +53,7 @@ const Sidebar = ({selectedModel, createModel, exportCSV, importCSV}) => {
         >
           Import
         </FileInput>
-        <button disabled={!selectedModel} onClick={exportCSV} className={`flex-1 h-full w-full bg-white border border-gray-300 rounded-sm ${ !selectedModel ? "text-gray-300 opacity-80 shadow-none" : "hover:bg-gray-50 active:bg-gray-200"}`} >Export</button>
+        <button disabled={models.length === 0} onClick={exportCSV} className={`flex-1 h-full w-full bg-white border border-gray-300 rounded-sm ${ models.length === 0 ? "text-gray-300 opacity-80 shadow-none" : "hover:bg-gray-50 active:bg-gray-200"}`} >Export</button>
       </div>
     </div>
   );
