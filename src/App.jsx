@@ -5,6 +5,70 @@ import Alert from './components/Interface/InterfaceComponents/Alert';
 import { ManipulationProvider } from './context/ManipulationContext';
 import FileSaver from 'file-saver';
 
+//File export for Unity
+const exportOBJ = () => {
+  if (models.length < 1) {
+    fireAlert("No models to export");
+    return;
+  }
+
+  let objContent = '';
+
+  models.forEach((model, index) => {
+    // Assuming simple cube geometry per model (replace with real geometry later)
+    const size = model.scale || [1, 1, 1];
+    const pos = model.position || [0, 0, 0];
+
+    // Vertices of a unit cube centered at origin
+    const baseVertices = [
+      [-0.5, -0.5, -0.5],
+      [0.5, -0.5, -0.5],
+      [0.5, 0.5, -0.5],
+      [-0.5, 0.5, -0.5],
+      [-0.5, -0.5, 0.5],
+      [0.5, -0.5, 0.5],
+      [0.5, 0.5, 0.5],
+      [-0.5, 0.5, 0.5]
+    ];
+
+    // Scale + translate each vertex
+    const transformedVertices = baseVertices.map(v => [
+      v[0] * size[0] + pos[0],
+      v[1] * size[1] + pos[1],
+      v[2] * size[2] + pos[2]
+    ]);
+
+    // Add vertices to OBJ string
+    transformedVertices.forEach(v => {
+      objContent += `v ${v[0]} ${v[1]} ${v[2]}\n`;
+    });
+
+    // Faces of a cube (1-based index; must offset for each cube)
+    const faceIndices = [
+      [1,2,3,4],
+      [5,6,7,8],
+      [1,5,8,4],
+      [2,6,7,3],
+      [4,3,7,8],
+      [1,2,6,5]
+    ];
+
+    // OBJ uses 1-based indexing
+    const vertexOffset = index * 8;
+
+    faceIndices.forEach(f => {
+      objContent += `f ${f[0]+vertexOffset} ${f[1]+vertexOffset} ${f[2]+vertexOffset} ${f[3]+vertexOffset}\n`;
+    });
+  });
+
+  // Download as OBJ file
+  const objBlob = new Blob([objContent], { type: 'text/plain' });
+  FileSaver.saveAs(objBlob, 'ExportedScene.obj');
+
+  fireAlert("OBJ export completed!");
+};
+
+
 //TODO: Flatten Hierarchy of small components to simplify architecture
 //TODO: maybe Models and selected models in neuen Context oder store verfrachten
 //TODO: Put all model logic and alteration functionality into a context, similar to meshmanipulation
@@ -126,7 +190,10 @@ export default function App() {
           copyModel={copyModel}
           exportCSV={exportCSV} 
           importCSV={importCSV}
+          
         />
+        <button 
+          onClick={exportOBJ}>Export OBJ for Unity</button>
         <Scene 
           models={models} 
           setModels={setModels} 
