@@ -5,7 +5,12 @@ import Alert from './components/Interface/InterfaceComponents/Alert';
 import { ManipulationProvider } from './context/ManipulationContext';
 import FileSaver from 'file-saver';
 
-//File export for Unity
+
+//TODO: Flatten Hierarchy of small components to simplify architecture
+//TODO: maybe Models and selected models in neuen Context oder store verfrachten
+//TODO: Put all model logic and alteration functionality into a context, similar to meshmanipulation
+export default function App() {
+  //File export for Unity
 const exportOBJ = () => {
   if (models.length < 1) {
     fireAlert("No models to export");
@@ -67,12 +72,6 @@ const exportOBJ = () => {
 
   fireAlert("OBJ export completed!");
 };
-
-
-//TODO: Flatten Hierarchy of small components to simplify architecture
-//TODO: maybe Models and selected models in neuen Context oder store verfrachten
-//TODO: Put all model logic and alteration functionality into a context, similar to meshmanipulation
-export default function App() {
   
   // model array where all models are saved
   const [models, setModels] = useState([]);
