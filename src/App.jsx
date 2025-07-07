@@ -5,63 +5,86 @@ import Alert from './components/Interface/InterfaceComponents/Alert';
 import { ManipulationProvider } from './context/ManipulationContext';
 import FileSaver from 'file-saver';
 import { loadGLBGeometry } from './utils/loadGLB';
+import * as THREE from 'three';
 
 //TODO: Flatten Hierarchy of small components to simplify architecture
 //TODO: maybe Models and selected models in neuen Context oder store verfrachten
 //TODO: Put all model logic and alteration functionality into a context, similar to meshmanipulation
 export default function App() {
 
-  //File export for Unity OBJ
 const exportOBJ = async () => {
-    console.log("exportOBJ called"); 
   if (models.length < 1) {
     fireAlert("No models to export");
     return;
   }
 
   let objContent = '';
-  console.log("Exporting models:", models.length);
+  let cumulativeVertexCount = 0;
 
   for (let index = 0; index < models.length; index++) {
     const model = models[index];
-       const path = model.path;
-    console.log(`Loading model at path: ${path}`);
+    const path = model.path;
 
     try {
-      const { vertices, faces } = await loadGLBGeometry(path);
-      console.log(`Model ${index} vertices count: ${vertices.length}`);
-      console.log(`Model ${index} faces count: ${faces.length}`);
+      const { vertices, normals, faces } = await loadGLBGeometry(path);
 
-      // Apply position & scale
+      if (!vertices || !faces || vertices.length === 0 || faces.length === 0) {
+        throw new Error("Invalid geometry data");
+      }
+
       const size = model.scale || [1, 1, 1];
       const pos = model.position || [0, 0, 0];
+      const rot = model.rotation || [0, 0, 0];  // rotation in radians expected
 
-      const transformedVertices = vertices.map(v => [
-        v[0] * size[0] + pos[0],
-        v[1] * size[1] + pos[1],
-        v[2] * size[2] + pos[2]
-      ]);
+      // Create transform matrix with position, rotation, scale
+      const transform = new THREE.Matrix4();
+      const euler = new THREE.Euler(rot[0], rot[1], rot[2], 'XYZ');  // assuming XYZ order
+      const scaleVec = new THREE.Vector3(...size);
+      const positionVec = new THREE.Vector3(...pos);
+
+      transform.compose(positionVec, new THREE.Quaternion().setFromEuler(euler), scaleVec);
+
+      // Apply transform to each vertex
+      const transformedVertices = vertices.map(v => {
+        const vec = new THREE.Vector3(v[0], v[1], v[2]);
+        vec.applyMatrix4(transform);
+        return vec;
+      });
+
+      // Apply only rotation (no position/scale) to normals, then normalize
+      const transformedNormals = normals.map(n => {
+        const normVec = new THREE.Vector3(n[0], n[1], n[2]);
+        normVec.applyEuler(euler).normalize();
+        return normVec;
+      });
 
       transformedVertices.forEach(v => {
-        objContent += `v ${v[0]} ${v[1]} ${v[2]}\n`;
+        objContent += `v ${v.x} ${v.y} ${v.z}\n`;
       });
 
-      const vertexOffset = index * vertices.length;
+      transformedNormals.forEach(n => {
+        objContent += `vn ${n.x} ${n.y} ${n.z}\n`;
+      });
+
+      const vertexOffset = cumulativeVertexCount;
 
       faces.forEach(f => {
-        objContent += `f ${f[0]+1+vertexOffset} ${f[1]+1+vertexOffset} ${f[2]+1+vertexOffset}\n`;
+        objContent += `f ${f[0] + 1 + vertexOffset}//${f[0] + 1 + vertexOffset} ` +
+                      `${f[1] + 1 + vertexOffset}//${f[1] + 1 + vertexOffset} ` +
+                      `${f[2] + 1 + vertexOffset}//${f[2] + 1 + vertexOffset}\n`;
       });
 
+      cumulativeVertexCount += vertices.length;
+
     } catch (error) {
-      console.error("Error loading GLB model:", error);
+      console.error("Error loading GLB model from path:", path, error);
       fireAlert("Failed to export model");
-      return;  // optionally stop export on error
+      return;
     }
   }
 
   const objBlob = new Blob([objContent], { type: 'text/plain' });
   FileSaver.saveAs(objBlob, 'ExportedScene.obj');
-
   fireAlert("OBJ export completed!");
 };
 
