@@ -11,7 +11,7 @@ const Alert = ({message, visible, setVisible}) => {
     }, []);
     
     return (
-        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 px-4 py-4 text-black bg-black bg-opacity-10 backdrop-blur-sm rounded-sm ">{message}</div>
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 px-4 py-4 z-10 text-black bg-black bg-opacity-10 backdrop-blur-sm rounded-sm ">{message}</div>
     );
 };
 
