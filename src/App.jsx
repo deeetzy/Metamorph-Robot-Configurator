@@ -120,6 +120,7 @@ export default function App() {
         
         <Interface 
           selectedModel={selectedModel}
+          modelsEmpty={!models.length}
           createModel={createModel}
           deleteModel={deleteSelectedModel}
           copyModel={copyModel}

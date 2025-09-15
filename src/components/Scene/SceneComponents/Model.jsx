@@ -6,7 +6,6 @@ import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 //TODO: might aswell drill the model as Object since im using every attribute anyway
-//TODO: reduce excessive comments after thorough documentation
 const Model = ({id, type, path, position, rotation, scale, isSelected, setSelectedModel, updateModelTransformation, dragRef}) => {
   //Manipulation controls state from UI to connect the selected manipulation tool with the pivotcontrols to only show the currently selected tool and not all together to avoid confusion
   const { manipulationControls, setControls } = useManipulation();
@@ -22,12 +21,12 @@ const Model = ({id, type, path, position, rotation, scale, isSelected, setSelect
 
   //render Model from path and copy it for this component, since R3F reuses cached scenes from same paths. with this, multiple models can be rendered from same path
   const { scene } = useGLTF(path);
-  const clonedScene = useMemo(() => scene.clone(true), [scene, path]);
+  const clonedAsset = useMemo(() => scene.clone(true), [scene, path]);
 
   //onMount of component, give the model the correct responsive color design
   //could mess with Models that have an original used material, since this is replacing it in order to highlight current selected model.
   useEffect(() => {
-    clonedScene.traverse((child) => {
+    clonedAsset.traverse((child) => {
       if (child.isMesh) {
         const color = isSelected ? '#98aad9' : '#9ea2ad';
         child.material = new THREE.MeshStandardMaterial({ color });
@@ -100,7 +99,7 @@ const Model = ({id, type, path, position, rotation, scale, isSelected, setSelect
       >
         <primitive
         ref={modelRef}
-        object={clonedScene}
+        object={clonedAsset}
         onClick={(event) => {
           handleModelClick(event, id);
         }}
@@ -111,7 +110,7 @@ const Model = ({id, type, path, position, rotation, scale, isSelected, setSelect
         <group>
           <primitive
           ref={modelRef}
-          object={clonedScene}
+          object={clonedAsset}
           onClick={(event) => {
             handleModelClick(event, id);
           }}
