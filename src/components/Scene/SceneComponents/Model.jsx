@@ -5,7 +5,6 @@ import { useManipulation } from '../../../context/ManipulationContext';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
-//TODO: might aswell drill the model as Object since im using every attribute anyway
 const Model = ({id, type, path, position, rotation, scale, isSelected, setSelectedModel, updateModelTransformation, dragRef}) => {
   //Manipulation controls state from UI to connect the selected manipulation tool with the pivotcontrols to only show the currently selected tool and not all together to avoid confusion
   const { manipulationControls, setControls } = useManipulation();

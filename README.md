@@ -1,5 +1,11 @@
 #Metamorph Robot Configurator
+Hannes Wattenberg - Bachelor prototype
 
+In order to start the project node and npm are required.
+
+Install dependencies: npm install
+
+Start dev server: npm run dev
 
 
 The follwoing SVGs were used in the button components of this app:

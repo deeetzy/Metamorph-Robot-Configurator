@@ -9,7 +9,6 @@ import { ManipulationProvider } from '../../context/ManipulationContext';
 import modelRegistry from '../../assets/data/modelRegistry.js';
 
 
-//TODO: maybe should move this component up since its not too complicatied and needs all parent states?
 const Scene = ({ models, setModels, selectedModel, setSelectedModel}) => {
   //base Directory in puiblic where models are saved
   const modelBaseDir = '/assets/';

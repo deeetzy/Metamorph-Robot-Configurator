@@ -1,5 +1,3 @@
-//for now, duplicated Shapes
-//TODO: find solution, so shapes are at the beginning of every accordeon without registry code duplication
 const modelRegistry = {
     'Core Subdivision':{
         'Basic Shapes':{
@@ -9,14 +7,12 @@ const modelRegistry = {
                 img: 'Barrel.png',
                 path: 'Barrel.glb',
             },
-            //inconsistent naming
             Cube: {
                 name: 'Cube',
                 type: 'core subdivision',
                 img: 'BoxCube.png',
                 path: 'Cube.glb',
             },
-            //inconsistent naming
             BoxRounded: {
                 name: 'Rounded Box',
                 type: 'core subdivision',

@@ -5,10 +5,8 @@ import AccordeonItem from './AccordeonItem.jsx';
 import AccordeonSection from './AccordeonSection.jsx';
 import modelRegistry from '../../../assets/data/modelRegistry.js';
 import FileInput from './FileInput.jsx'
-
 import '../../../App.css';
 
-//TODO: Flatten hierarchy
 //for-each Category, make an accordeon
 //for-each item, make an accordeonItem with its values.
 const Sidebar = ({modelsEmpty, createModel, exportCSV, importCSV}) => {
