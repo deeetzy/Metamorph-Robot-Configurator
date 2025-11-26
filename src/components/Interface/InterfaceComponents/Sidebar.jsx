@@ -5,23 +5,11 @@ import AccordeonItem from './AccordeonItem.jsx';
 import AccordeonSection from './AccordeonSection.jsx';
 import modelRegistry from '../../../assets/data/modelRegistry.js';
 import FileInput from './FileInput.jsx'
-
 import '../../../App.css';
 
-//TODO: Flatten hierarchy
 //for-each Category, make an accordeon
 //for-each item, make an accordeonItem with its values.
-const Sidebar = ({models, createModel, exportCSV, importCSV}) => {
-  //preloading assets
-  useEffect(() => {
-      Object.entries(modelRegistry).forEach(([categoryName, sections]) => {
-        Object.entries(sections).forEach(([sectionName, models]) => {
-          Object.entries(models).forEach(([modelName, modelData]) => {
-            useGLTF.preload(modelData.path);
-          });
-        });  
-    });
-  }, []);
+const Sidebar = ({modelsEmpty, createModel, exportCSV, importCSV}) => {
 
   return (
     <div className='absolute top-0 right-0 h-full w-full sm:max-w-sm 2xl:max-w-md 3xl:max-w-lg z-10 flex flex-col select-none pointer-events-none'>
@@ -53,7 +41,7 @@ const Sidebar = ({models, createModel, exportCSV, importCSV}) => {
         >
           Import
         </FileInput>
-        <button disabled={models.length === 0} onClick={exportCSV} className={`flex-1 h-full w-full bg-white border border-gray-300 rounded-sm ${ models.length === 0 ? "text-gray-300 opacity-80 shadow-none" : "hover:bg-gray-50 active:bg-gray-200"}`} >Export</button>
+        <button disabled={modelsEmpty} onClick={exportCSV} className={`flex-1 h-full w-full bg-white border border-gray-300 rounded-sm ${ modelsEmpty ? "text-gray-300 opacity-80 shadow-none" : "hover:bg-gray-50 active:bg-gray-200"}`} >Export</button>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import Sidebar from './InterfaceComponents/Sidebar.jsx';
 import MeshManipulation from './InterfaceComponents/MeshManipulation.jsx';
 
 //TODO: flatten hierarchy since this component is so small
-const Interface = ({models, selectedModel, createModel, deleteModel, copyModel, exportCSV, importCSV}) => {
+const Interface = ({selectedModel, modelsEmpty, createModel, deleteModel, copyModel, exportCSV, importCSV}) => {
   return (
     <>
       <MeshManipulation 
@@ -12,7 +12,7 @@ const Interface = ({models, selectedModel, createModel, deleteModel, copyModel, 
         copyModel={copyModel}
       />
       <Sidebar
-        models={models}
+        modelsEmpty={modelsEmpty}
         createModel={createModel} 
         exportCSV={exportCSV} 
         importCSV={importCSV}

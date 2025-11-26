@@ -224,6 +224,7 @@ const exportOBJ = async () => {
         <Interface
           models={models}
           selectedModel={selectedModel}
+          modelsEmpty={!models.length}
           createModel={createModel}
           deleteModel={deleteSelectedModel}
           copyModel={copyModel}

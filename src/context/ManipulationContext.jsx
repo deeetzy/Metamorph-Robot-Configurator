@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState } from 'react';
-import { KeyboardControls } from '@react-three/drei';
 
 const ManipulationContext = createContext();
 

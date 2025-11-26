@@ -25,7 +25,6 @@ const MeshManipulation = ({selectedModel, deleteModel, copyModel}) => {
   };
 
   return (
-    //TODO: Doublecheck if changes in SVG were made and if so, document them and credit them
     <div className="absolute grid place-items-center gap-2 h-48 w-20 m-2 z-10">
       <Button
       type={"move"}
